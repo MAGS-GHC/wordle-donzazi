@@ -4,7 +4,7 @@ body {
 }
 
 .title {
-  color: rgb(255, 10, 194);
+  color: rgb(0, 0, 0);
   font-size: 40px;
   font-weight: bold;
   letter-spacing: 5px;
@@ -16,7 +16,7 @@ body {
 .board {
   width: 350px;
   height: 420px;
-  background-color: aquamarine;
+  background-color: rgb(250, 253, 252);
   margin-left: auto;
   margin-right: auto;
   display: grid;
@@ -56,11 +56,57 @@ body {
 }
 
 header {
-  border-bottom: 3px solid rgb(255, 10, 194);
+  border-bottom: 3px solid rgb(0, 0, 0);
   width: 400px;
   display: flex;
   margin-left: auto;
   margin-right: auto;
   justify-content: center;
   align-items: center;
+}
+
+.keyboard {
+  display: grid;
+  grid-template-columns: repeat(20, minmax(auto, 1.25em));
+  grid-auto-rows: 3em; /* our buttons are now "3em" tall. */
+  gap: 0.25em;
+  justify-content: center;
+  margin-top: 1.5em;
+}
+
+.key {
+  font-size: inherit;
+  grid-column: span 2; /* This makes it that each letter/button takes up 2 columns instead of 1. */
+  border: none; /* Removes all the button-styling */
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center; /* makes the text show up in the center */
+  background-color: hsl(
+    var(--hue, 200),
+    var(--saturation, 1%),
+    calc(var(--lightness-offset, 0%) + var(--lightness, 51%))
+  ); /*We broke down our "background-color"-key into components using CSS variables. So we give them some "default" values until we change it manuelly later. We also gave the lightness a calculation that says that our default lightness-offset is set to 0%. */
+
+  color: white;
+  fill: white; /* makes so that the "back-space-butoon" all the way to the right becomes white instead of black. */
+  text-transform: uppercase;
+  border-radius: 0.25em; /* going to give us round corners on our keys. */
+  cursor: pointer;
+  user-select: none; /* So that we can't any text on the keyboard. */
+}
+
+.key.large {
+  grid-column: span 3; /*all the other keys are set to "span 2", so this is going to mean that this key is 1.5 times the size of our normal keys. */
+}
+
+.key > svg {
+  /* is going to scale up the "back-space-button". */
+  width: 1.75em;
+  height: 1.75em;
+}
+
+.key:hover,
+.key:focus {
+  --lightness-offset: 10%; /* this makes the buttons/keys 10% lighter everytime we hover on it.  */
 }
