@@ -55,7 +55,7 @@ function plade() {
 }
 
 plade();
-
+asas;
 function update() {
   let korrekt = 0;
   let antalBogstav = []; //.map der tæller hvor gange bogstaver optræder i et ord
