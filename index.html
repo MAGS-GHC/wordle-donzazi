@@ -6,71 +6,97 @@
     <title>Wordle</title>
     <link rel="stylesheet" href="style.css" />
     <link rel="icon" href="Assets/wordle_logo_32x32.png" />
-    <script src="script.js"></script>
+    <script src="script.js" defer></script>
   </head>
   <body>
-    <h1 id="title">Wordle</h1>
-
+    <h1 id="title">Wordle!</h1>
     <hr />
 
-    <br />
+    <div class="alert-container" data-alert-container></div>
 
-    <div id="board"></div>
+    <div data-guess-grid class="guess-grid">
+      <div class="tile"></div>
+      <div class="tile"></div>
+      <div class="tile"></div>
+      <div class="tile"></div>
+      <div class="tile"></div>
+      <div class="tile"></div>
+      <div class="tile"></div>
+      <div class="tile"></div>
+      <div class="tile"></div>
+      <div class="tile"></div>
+      <div class="tile"></div>
+      <div class="tile"></div>
+      <div class="tile"></div>
+      <div class="tile"></div>
+      <div class="tile"></div>
+      <div class="tile"></div>
+      <div class="tile"></div>
+      <div class="tile"></div>
+      <div class="tile"></div>
+      <div class="tile"></div>
+      <div class="tile"></div>
+      <div class="tile"></div>
+      <div class="tile"></div>
+      <div class="tile"></div>
+      <div class="tile"></div>
+      <div class="tile"></div>
+      <div class="tile"></div>
+      <div class="tile"></div>
+      <div class="tile"></div>
+      <div class="tile"></div>
+    </div>
 
-    <br />
-
-    <h1 id="answer"></h1>
-
-    <div id="container">
-
-        <div id="keyboardcontainer">
-          <div class="keyboard-row">
-            <button data-key="q">Q</button>
-            <button data-key="w">W</button>
-            <button data-key="e">E</button>
-            <button data-key="r">R</button>
-            <button data-key="t">T</button>
-            <button data-key="y">Y</button>
-            <button data-key="u">U</button>
-            <button data-key="i">I</button>
-            <button data-key="o">O</button>
-            <button data-key="p">P</button>
-          </div>
-
-          <div class="keyboard-row">
-            <div class="spacer-half"></div>
-            <button data-key="a">A</button>
-            <button data-key="s">S</button>
-            <button data-key="d">D</button>
-            <button data-key="f">F</button>
-            <button data-key="g">G</button>
-            <button data-key="h">H</button>
-            <button data-key="j">J</button>
-            <button data-key="k">K</button>
-            <button data-key="l">L</button>
-            <div class="spacer-half"></div>
-          </div>
-
-          <div class="keyboard-row">
-            <button data-key="enter" class="wide-button">Enter</button>
-            <button data-key="z">Z</button>
-            <button data-key="x">X</button>
-            <button data-key="c">C</button>
-            <button data-key="v">V</button>
-            <button data-key="b">B</button>
-            <button data-key="n">N</button>
-            <button data-key="m">M</button>
-            <button data-key="del" class="wide-button">
-              <img
-                src="Assets/Del.png"
-                width="40px"
-                height="40px"
-                style="padding-top: 8%"
-                onclick="deleteButton()" />
-            </button>
-          </div>
-        </div>
-      </div>
+    <div data-keyboard class="keyboard">
+      <!--This is the keyboard. We make a button for every key on our keyboard and make the "class" the same as each key.-->
+      <button class="key" data-key="Q">Q</button>
+      <button class="key" data-key="W">W</button>
+      <button class="key" data-key="E">E</button>
+      <button class="key" data-key="R">R</button>
+      <button class="key" data-key="T">T</button>
+      <button class="key" data-key="Y">Y</button>
+      <button class="key" data-key="U">U</button>
+      <button class="key" data-key="I">I</button>
+      <button class="key" data-key="O">O</button>
+      <button class="key" data-key="P">P</button>
+      <div class="space"></div>
+      <!--This gives the space in the second row of the keyboard.-->
+      <button class="key" data-key="A">A</button>
+      <button class="key" data-key="S">S</button>
+      <button class="key" data-key="D">D</button>
+      <button class="key" data-key="F">F</button>
+      <button class="key" data-key="G">G</button>
+      <button class="key" data-key="H">H</button>
+      <button class="key" data-key="J">J</button>
+      <button class="key" data-key="K">K</button>
+      <button class="key" data-key="L">L</button>
+      <div class="space"></div>
+      <!--This gives the space in the second row of the keyboard.-->
+      <button class="key large" data-enter>Enter</button>
+      <button class="key" data-key="Z">Z</button>
+      <button class="key" data-key="X">X</button>
+      <button class="key" data-key="C">C</button>
+      <button class="key" data-key="V">V</button>
+      <button class="key" data-key="B">B</button>
+      <button class="key" data-key="N">N</button>
+      <button class="key" data-key="M">M</button>
+      <button class="key large" data-enter>
+        <!--We have used the same button as the original game "Wordle" from their site through "svg", so that it's the same. This also has the class-"large" because it's going to take 2x the space as all the other buttons.-->
+        <svg
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          height="20"
+          viewBox="0 0 24 24"
+          width="20"
+          class="game-icon"
+          data-testid="icon-backspace"
+        >
+          <path
+            fill="var(--color-tone-1)"
+            d="M22 3H7c-.69 0-1.23.35-1.59.88L0 12l5.41 8.11c.36.53.9.89 1.59.89h15c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H7.07L2.4 12l4.66-7H22v14zm-11.59-2L14 13.41 17.59 17 19 15.59 15.41 12 19 8.41 17.59 7 14 10.59 10.41 7 9 8.41 12.59 12 9 15.59z"
+          ></path>
+        </svg>
+      </button>
     </div>
   </body>
 </html>

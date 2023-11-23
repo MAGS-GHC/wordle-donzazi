@@ -1,112 +1,264 @@
-body {
-  font-family: Arial, Helvetica, sans-serif;
-  text-align: center;
+/* The reason for why we use "em" is because "em" is based on our fontsize. So everytime our fontsize is changing our "em" is also scaling along with it. This makes it easy so that we don't have to deal with "media-querries" at all! */
+
+h1 {
+  font-size: 36px;
+  display: flex;
+  justify-content: center;
+  color: white;
 }
 
 hr {
   width: 500px;
+  margin-bottom: 2%;
 }
 
-#title {
-  font-size: 36px;
-  font-weight: bold;
-  letter-spacing: 2px;
-}
-
-#board {
-  width: 350px;
-  height: 420px;
-  margin: 0 auto;
-  margin-top: 3px;
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.tile {
-  /* Box */
-  border: 2px solid lightgray;
-  width: 60px;
-  height: 60px;
-  margin: 2.5px;
-
-  /* Text */
-  color: black;
-  font-size: 36px;
-  font-weight: bold;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.correct {
-  background-color: #6aaa64;
-  color: white;
-  border-color: white;
-}
-
-.present {
-  background-color: #c9b458;
-  color: white;
-  border-color: white;
-}
-
-.absent {
-  background-color: #787c7e;
-  color: white;
-  border-color: white;
-}
-
-#container {
-  display: flex;
-  border: 20px solid lightgray;
-  border-radius: 10%;
-  padding: 0 0 0 0;
-  height: 100%;
-  align-items: center;
-  flex-direction: column;
-}
-
-header {
-  border-bottom: 3px solid rgb(255, 255, 255);
-  margin-bottom: 40px;
-}
-
-.title {
-  color: rgb(255, 255, 255);
-  font-size: 40px;
-  font-weight: bold;
-  margin: 7px 0 7px 0;
-  text-align: center;
+*,
+*::after, /*pseudo-classes are used to add styles to selectors, but only when those selectors meet certain conditions. For example, the pseudo-class :hover can be used to select a button when a user's pointer hovers over the button and this selected button can then be styled.*/
+*::before {
+  box-sizing: border-box;
   font-family: Arial, Helvetica, sans-serif;
 }
 
-#boardcontainer {
+body {
+  background-color: hsl(240, 3%, 7%); /* Taken from Wordle */
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  margin: 0;
+  padding: 1em;
+  font-size: clamp(
+    0.5rem,
+    2.5vmin,
+    1.5rem
+  ); /* This is going to make our site responsive. So as we scale our page, our fontsize should change.  */
+}
+
+.keyboard {
+  display: grid;
+  grid-template-columns: repeat(20, minmax(auto, 1.25em));
+  grid-auto-rows: 3em; /* our buttons are now "3em" tall. */
+  gap: 0.25em;
+  justify-content: center;
+}
+
+.key {
+  font-size: inherit;
+  grid-column: span 2; /* This makes it that each letter/button takes up 2 columns instead of 1. */
+  border: none; /* Removes all the button-styling */
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center; /* makes the text show up in the center */
+  background-color: hsl(
+    var(--hue, 200),
+    var(--saturation, 1%),
+    calc(var(--lightness-offset, 0%) + var(--lightness, 51%))
+  ); /*We broke down our "background-color"-key into components using CSS variables. So we give them some "default" values until we change it manuelly later. We also gave the lightness a calculation that says that our default lightness-offset is set to 0%. */
+
+  color: white;
+  fill: white; /* makes so that the "back-space-butoon" all the way to the right becomes white instead of black. */
+  text-transform: uppercase;
+  border-radius: 0.25em; /* going to give us round corners on our keys. */
+  cursor: pointer;
+  user-select: none; /* So that we can't any text on the keyboard. */
+}
+
+.key.large {
+  grid-column: span 3; /*all the other keys are set to "span 2", so this is going to mean that this key is 1.5 times the size of our normal keys. */
+}
+
+.key > svg {
+  /* is going to scale up the "back-space-button". */
+  width: 1.75em;
+  height: 1.75em;
+}
+
+.key:hover,
+.key:focus {
+  --lightness-offset: 10%; /* this makes the buttons/keys 10% lighter everytime we hover on it.  */
+}
+
+.key.wrong {
+  --lightness: 23%;
+}
+
+.key.wrong-location {
+  --hue: 49;
+  --saturation: 51%;
+  --lightness: 47%;
+}
+
+.key.correct {
+  --hue: 115;
+  --saturation: 29%;
+  --lightness: 43%;
+}
+
+.guess-grid {
+  display: grid;
+  justify-content: center;
+  align-content: center; /* want to center our content both vertically and horisontally */
+  flex-grow: 1; /* That is going to make this section fill the entirety of the page and push our keyboard down to the bottom. */
+  grid-template-columns: repeat(
+    5,
+    4em
+  ); /*we set the columns to repeat "5"-times because we have 5 different columns and each one of them is going to be 4em wide.*/
+  grid-template-rows: repeat(6, 4em); /*is the same as columns. */
+  gap: 0.25em;
+  margin-bottom: 1em;
+}
+
+.tile {
+  font-size: 2em;
+  color: white; /*the text color is set to white */
+  border: 0.05em solid hsl(240, 2%, 23%); /* we used "em" again, so everytime our page scale the border will scale with it. */
+  text-transform: uppercase;
+  font-weight: bold;
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-grow: 1;
-  overflow: hidden;
+  user-select: none;
+  transition: transform 250ms linear;
 }
 
-button {
-  font-family: inherit;
-  font-weight: bold;
-  font-size: large;
-  font-size: 25px;
-  border: 0;
-  border-radius: 12px;
-  padding: ;
-  height: 58px;
-  width: 60px;
-  cursor: pointer;
-  flex-grow: 1;
-  background-color: rgb(253, 253, 253);
+.tile[data-state="active"] {
+  /* we're using a data-attribute that has a state of "active". An active-state has a letter in it BUT NOT submittet yet.  */
+  border-color: hsl(200, 1%, 34%);
 }
 
-button:hover {
-  background-color: rgb(207, 207, 207);
+.tile[data-state="wrong"] {
+  /*this gives a grey color behind our wrong letters.  */
+  border: none;
+  background-color: hsl(240, 2%, 23%);
 }
 
-.wide-button {
-  width: 100px;
+.tile[data-state="wrong-location"] {
+  border: none;
+  background-color: hsl(49, 51%, 47%);
+}
+
+.tile[data-state="correct"] {
+  border: none;
+  background-color: hsl(115, 29%, 43%);
+}
+
+.tile.shake {
+  animation: shake 250ms ease-in-out;
+}
+
+.tile.flip {
+  transform: rotateX(90deg);
+}
+
+@keyframes shake {
+  /*these keyframes are going to make the tiles on our page "shake" if there's missing some letters or something is wrong.
+   We are bouncing back and fourth until we hit 0% again. */
+  10% {
+    transform: translateX(-5%);
+  }
+
+  30% {
+    transform: translateX(5%);
+  }
+
+  50% {
+    transform: translateX(-7.5%);
+  }
+
+  70% {
+    transform: translateX(7.5%);
+  }
+
+  90% {
+    transform: translateX(-5%);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes dance {
+  20% {
+    transform: translateY(-50%);
+  }
+
+  40% {
+    transform: translateY(5%);
+  }
+
+  60% {
+    transform: translateY(-25%);
+  }
+
+  80% {
+    transform: translateY(2.5%);
+  }
+
+  90% {
+    transform: translateY(-5%);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.alert-container {
+  position: fixed;
+  top: 10vh;
+  left: 50vw;
+  transform: translateX(-50%);
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.alert {
+  pointer-events: none;
+  background-color: hsl(204, 7%, 85%);
+  padding: 0.75em;
+  border-radius: 0.25em;
+  opacity: 1;
+  transition: opacity 500ms ease-in-out;
+  margin-bottom: 0.5em;
+}
+
+.alert:last-child {
+  margin-bottom: 0;
+}
+
+.alert.hide {
+  opacity: 0;
+}
+
+.alert-container {
+  /*this is going to center our alert-container and all of the children inside of it */
+  position: fixed;
+  top: 10vh;
+  left: 50vw;
+  transform: translateX(-50%); /* make it go to the center */
+  z-index: 1; /* Always show on top*/
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.alert {
+  pointer-events: none; /*We dont want anyone to select our alert */
+  background-color: hsl(204, 7%, 85%);
+  padding: 0.75em;
+  border-radius: 0.25em;
+  opacity: 1;
+  transition: opacity 500ms ease-in-out;
+  margin: 0.2em;
+}
+
+.alert:last-child {
+  margin-bottom: 0;
+}
+
+.alert.hide {
+  opacity: 0;
 }
